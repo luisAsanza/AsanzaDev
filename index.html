@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AsanzaDev — Portfolio</title>
+    <meta name="description" content="Portfolio site — AsanzaDev" />
+    <link rel="icon" href="/assets/favicon.ico" />
+    <!-- Tailwind via CDN (no build step) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body class="bg-gray-50 text-gray-900 antialiased">
+    <header x-data="{open:false}" class="sticky top-0 z-50 bg-white/60 backdrop-blur border-b">
+      <div class="max-w-4xl mx-auto p-4 flex items-center justify-between">
+        <a href="#home" class="flex items-center gap-3">
+          <span class="font-mono text-xl font-semibold">&lt;AS /&gt;</span>
+          <span class="sr-only">AsanzaDev — Home</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-4">
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#home">Home</a>
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#about">About Me</a>
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#training">Training</a>
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#portfolio">Portfolio</a>
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#experience">Experience</a>
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#technologies">Technologies</a>
+          <a class="text-sm text-gray-700 hover:text-indigo-600" href="#contact">Contact</a>
+        </nav>
+
+        <div class="md:hidden">
+          <button @click="open = !open" aria-expanded="false" :aria-expanded="open" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
+            <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div x-show="open" x-cloak class="md:hidden border-t">
+        <div class="px-4 py-3 space-y-2">
+          <a class="block text-gray-700 py-2" href="#home" @click="open = false">Home</a>
+          <a class="block text-gray-700 py-2" href="#about" @click="open = false">About Me</a>
+          <a class="block text-gray-700 py-2" href="#training" @click="open = false">Training</a>
+          <a class="block text-gray-700 py-2" href="#portfolio" @click="open = false">Portfolio</a>
+          <a class="block text-gray-700 py-2" href="#experience" @click="open = false">Experience</a>
+          <a class="block text-gray-700 py-2" href="#technologies" @click="open = false">Technologies</a>
+          <a class="block text-gray-700 py-2" href="#contact" @click="open = false">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6">
+      <section id="home" class="mb-12">
+        <div class="flex items-center gap-6">
+          <img src="/assets/photo.jpg" alt="Your photo" class="w-24 h-24 rounded-full object-cover bg-gray-200" />
+          <div>
+            <h2 class="text-xl font-bold">Luis Asanza</h2>
+            <p class="text-sm text-gray-600">Senior .NET Engineer — portfolio and achievements</p>
+            <a class="inline-block mt-2 text-sm text-indigo-600 hover:underline" href="/assets/resume.pdf">Download Resume</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="mb-12">
+        <h3 class="text-lg font-semibold">About Me</h3>
+        <p class="text-gray-600 mt-2">Short professional summary will go here.</p>
+      </section>
+
+      <section id="training" x-data="achievementsApp()" class="space-y-4">
+        <h3 class="text-lg font-semibold">Achievements <small class="text-sm text-gray-500" x-text="`(${totalCount})`"></small></h3>
+
+        <template x-if="achievements.length === 0">
+          <p class="text-gray-600">No achievements found. The `data/achievements.json` file should be present.</p>
+        </template>
+
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <template x-for="a in achievements" :key="a.id">
+            <li class="bg-white p-4 rounded-lg shadow-sm">
+              <div class="flex items-start gap-3">
+                <img :src="a.imageUrl || '/assets/badge.svg'" alt="badge" class="w-12 h-12 object-contain" />
+                <div class="flex-1">
+                  <a :href="a.url" class="font-medium text-indigo-600 hover:underline" x-text="a.title"></a>
+                  <div class="text-sm text-gray-500" x-text="formatDate(a.grantedOn)"></div>
+                  <p class="mt-2 text-sm text-gray-700" x-text="a.description || ''"></p>
+                </div>
+                <div class="text-sm">
+                  <span x-show="a.verified" class="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Verified</span>
+                </div>
+              </div>
+            </li>
+          </template>
+        </ul>
+      </section>
+
+        <section id="portfolio" class="mb-12">
+          <h3 class="text-lg font-semibold">Portfolio</h3>
+          <p class="text-gray-600 mt-2">Featured projects and highlights (Renal Health System will be featured).</p>
+        </section>
+
+        <section id="experience" class="mb-12">
+          <h3 class="text-lg font-semibold">Experience</h3>
+          <p class="text-gray-600 mt-2">Professional experience timeline placeholder.</p>
+        </section>
+
+        <section id="technologies" class="mb-12">
+          <h3 class="text-lg font-semibold">Technologies</h3>
+          <p class="text-gray-600 mt-2">Icon grid of technologies placeholder.</p>
+        </section>
+
+        <section id="contact" class="mb-12">
+          <h3 class="text-lg font-semibold">Contact</h3>
+          <p class="text-gray-600 mt-2">Contact form placeholder and social links.</p>
+        </section>
+    </main>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>
