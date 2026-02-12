@@ -4,7 +4,7 @@ document.addEventListener('alpine:init', () => {
     totalCount: 0,
     async init() {
       try {
-        const res = await fetch('/data/achievements.json');
+        const res = await fetch('data/achievements.json');
         if (!res.ok) throw new Error('Failed to fetch achievements.json');
         const json = await res.json();
         this.achievements = json.achievements || [];
@@ -20,4 +20,6 @@ document.addEventListener('alpine:init', () => {
       try { return new Date(d).toLocaleDateString(); } catch (e) { return d; }
     }
   }))
+
+  
 })
