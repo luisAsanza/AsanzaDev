@@ -1,0 +1,56 @@
+{
+    "totalCount": 2,
+    "totalPages": 1,
+    "certificationLinked": true,
+    "certifications": [
+        {
+            "id": "certification.sitecore-xm-cloud-developer-certification-2023",
+            "name": "Sitecore XM Cloud Developer Certification (2023)",
+            "issuer": "Sitecore",
+            "isEligibleForRecertification": false,
+            "isPartOfStayCurrent": false,
+            "dateEarned": "2024-05-01T00:00:00+00:00",
+            "iconUrl": "",
+            "certificationNumber": "",
+            "badgeShareUrl": "",
+            "status": "Active",
+            "certificationURL": "",
+            "localizedContentMetadata": {
+            "products": [
+                "Sitecore XM Cloud"
+            ],
+            "levels": [
+                "intermediate"
+            ],
+            "roles": [
+                "developer"
+            ]
+            }
+        },
+        {
+            "id": "certification.sitecore-10-net-developer-certification",
+            "name": "Sitecore 10 .NET Developer Certification",
+            "issuer": "Sitecore",
+            "isEligibleForRecertification": false,
+            "isPartOfStayCurrent": false,
+            "dateEarned": "2023-04-01T00:00:00+00:00",
+            "iconUrl": "",
+            "certificationNumber": "",
+            "badgeShareUrl": "",
+            "status": "Expired",
+            "certificationURL": "",
+            "localizedContentMetadata": {
+            "products": [
+                "Sitecore 10",
+                ".NET"
+            ],
+            "levels": [
+                "intermediate"
+            ],
+            "roles": [
+                "developer"
+            ]
+            }
+        }
+    ]
+}

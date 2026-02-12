@@ -1,0 +1,86 @@
+{
+    "totalCount": 4,
+    "totalPages": 1,
+    "certificationLinked": true,
+    "certifications": [
+        {
+            "id": "certification.mcsa-web-applications-certification",
+            "name": "MCSA: Web Applications",
+            "isEligibleForRecertification": false,
+            "isPartOfStayCurrent": false,
+            "dateEarned": "2019-02-22T02:32:51+00:00",
+            "iconUrl": "/media/learn/certification/badges/mcsa-badge.svg",
+            "certificationNumber": "2A4587-7J1F52",
+            "badgeShareUrl": "",
+            "status": "Active",
+            "certificationURL": "/credentials/certifications/mcsa-web-applications-certification/",
+            "localizedContentMetadata": {
+                "products": [
+                    "vs"
+                ],
+                "levels": [
+                    "intermediate"
+                ],
+                "roles": [
+                    "developer"
+                ]
+            }
+        },
+        {
+            "id": "certification.mcsd-app-builder-certification",
+            "name": "MCSD: App Builder",
+            "isEligibleForRecertification": false,
+            "isPartOfStayCurrent": false,
+            "dateEarned": "2019-02-22T02:32:51+00:00",
+            "iconUrl": "/media/learn/certification/badges/mcsd-badge.svg",
+            "certificationNumber": "4D93BA-4CS8BA",
+            "badgeShareUrl": "",
+            "status": "Active",
+            "certificationURL": "/credentials/certifications/mcsd-app-builder-certification/",
+            "localizedContentMetadata": {
+                "products": [
+                    "azure"
+                ],
+                "levels": [
+                    "advanced"
+                ],
+                "roles": [
+                    "developer"
+                ]
+            }
+        },
+        {
+            "id": "certification.nouid.1519",
+            "name": "Microsoft Certified Professional",
+            "isEligibleForRecertification": false,
+            "isPartOfStayCurrent": false,
+            "dateEarned": "2018-11-10T13:26:57+00:00",
+            "certificationNumber": "6BEA14-39A02U",
+            "badgeShareUrl": "",
+            "status": "Active"
+        },
+        {
+            "id": "certification.mta-software-development-fundamentals",
+            "name": "MTA: Software Development Fundamentals",
+            "isEligibleForRecertification": false,
+            "isPartOfStayCurrent": false,
+            "dateEarned": "2018-09-24T19:17:07+00:00",
+            "iconUrl": "/media/learn/certification/badges/mta-badge.svg",
+            "certificationNumber": "ECF6F5-94FAL7",
+            "badgeShareUrl": "",
+            "status": "Active",
+            "certificationURL": "/credentials/certifications/mta-software-development-fundamentals/",
+            "localizedContentMetadata": {
+                "products": [
+                    "vs"
+                ],
+                "levels": [
+                    "beginner"
+                ],
+                "roles": [
+                    "developer"
+                ]
+            }
+        }
+    ]
+}
