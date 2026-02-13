@@ -1,15 +1,25 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://formspree.io; img-src 'self' data: https:; style-src 'self'; script-src 'self'; base-uri 'self'; object-src 'none';">
-    <!-- Note: frame-ancestors must be sent via HTTP response header to be enforced by browsers; set it on your server (e.g. Content-Security-Policy header). -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://formspree.io; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; script-src 'self' https://cdn.jsdelivr.net https://cdn.tailwindcss.com 'unsafe-inline' 'unsafe-eval'; base-uri 'self'; frame-ancestors 'none'; object-src 'none';">
     <title>AsanzaDev — Portfolio</title>
     <meta name="description" content="Portfolio site — AsanzaDev" />
     <link rel="icon" href="assets/favicon.ico" />
-    <!-- Tailwind is now built locally via Tailwind CLI/PostCSS -->
-    <!-- Alpine removed to avoid CSP 'unsafe-eval' requirement; using vanilla JS fallbacks. -->
+    <!-- Tailwind via CDN (no build step) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      /* Prevent anchored sections from being hidden behind the sticky header */
+      :root{--header-offset:64px}
+      main > section { scroll-margin-top: calc(var(--header-offset) + 0.5rem); }
+      @media (min-width:768px) {
+        /* header height slightly larger on md+ due to layout */
+        :root{--header-offset:72px}
+      }
+    </style>
     <link rel="stylesheet" href="css/styles.css">
   </head>
   <body class="bg-gray-50 text-gray-900 antialiased">
@@ -62,8 +72,8 @@
             </div>
           </div>
           <div>
-            <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Modernizing Enterprise .NET with Clean Architecture & AI</h1>
-            <p class="mt-4 text-gray-600 max-w-xl">I engineer resilient, cloud-native systems that bridge the gap between proven design patterns and the new era of intelligent software. Specializing in transforming complex business logic into maintainable, testable, and AI-ready solutions.</p>
+            <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Building resilient, maintainable systems using Clean Architecture</h1>
+            <p class="mt-4 text-gray-600 max-w-xl">I design and implement enterprise-grade .NET applications with clear separation of concerns, testability, and production-ready practices.</p>
             <div class="mt-6">
               <a href="#contact" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700">Contact me</a>
             </div>
@@ -75,23 +85,13 @@
         <h3 class="text-lg font-semibold">About Me</h3>
         <div class="mt-2 sm:flex sm:items-start sm:gap-6">
           <div class="flex-1">
-          <p class="text-gray-600">
-            Senior .NET Architect with 14+ years of experience building mission-critical platforms. Following a decade of specialized success in US healthcare software, I recently completed a strategic R&D sabbatical focused on integrating Generative AI into modern Clean Architecture systems to deliver secure, future-proof enterprise solutions.
-          </p>
-          <ul class="mt-3 text-sm text-gray-600 list-disc list-inside space-y-1">
-            <li>
-              <strong>Strategic Architecture:</strong> Designing robust Clean Architecture and Vertical Slice systems that prioritize maintainability and Domain-Driven Design (DDD) in complex environments.
-            </li>
-            <li>
-              <strong>High-Compliance Mastery:</strong> 10-year track record engineering secure, audit-ready software for US Hospitals (specializing in Renal/Kidney care), ensuring strict adherence to data privacy standards.
-            </li>
-            <li>
-              <strong>AI-Ready Modernization:</strong> Bridging the gap between legacy .NET and the future of Azure AI. Expert in deploying CI/CD via GitHub Actions and integrating LLM capabilities (Copilot, MCP) into enterprise workflows.
-            </li>
-            <li>
-              <strong>Engineering Rigor:</strong> Enforcing quality in AI-assisted development through comprehensive Unit Testing, FluentValidation, and structured logging (Serilog) to prevent hallucinations and logic errors.
-            </li>
-          </ul>
+            <p class="text-gray-600">Senior Engineer with 13+ years of experience in the .NET ecosystem. Following a decade of success in the healthcare sector, I dedicated the past year to an intentional technical pivot: mastering Clean Architecture, ASP.NET Core modernization, and AI-integrated workflows to deliver high-performance, secure enterprise solutions.</p>
+            <ul class="mt-3 text-sm text-gray-600 list-disc list-inside space-y-1">
+              <li><strong>Architecture:</strong> Design and implement Clean Architecture and Vertical Slice systems with a focus on Domain-Driven Design (DDD).</li>
+              <li><strong>Ecosystem:</strong> Expert in the .NET stack (C#, EF Core, SQL) with 10 years of specialized experience in high-compliance Healthcare/Renal software for US hospitals.</li>
+              <li><strong>Modernization & Cloud:</strong> Proficient in Azure services, building automated CI/CD pipelines with GitHub Actions, and integrating AI/LLM capabilities via GitHub Copilot and MCP.</li>
+              <li><strong>Quality:</strong> Dedicated to maintainable code through Unit Testing, FluentValidation, and structured logging (Serilog).</li>
+            </ul>
             
           </div>
           <div class="mt-4 sm:mt-0 sm:w-40">
@@ -183,7 +183,7 @@
 
               <!-- Portfolio Timeline Entry (current) -->
               <div class="flex items-start gap-4 mb-8 relative pl-12">
-                <img src="assets/logo.png" alt="Technical Modernization" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow" />
+                <img src="assets/modernization.png" alt="Technical Modernization" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow" />
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <div>
@@ -303,12 +303,12 @@
               <form id="my-form" action="https://formspree.io/f/mreapwaa" method="POST" class="grid gap-4">
                 <div>
                   <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                  <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" class="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" />
+                  <input id="email" name="email" type="email" required placeholder="you@example.com" class="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" />
                 </div>
 
                 <div>
                   <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                  <textarea id="message" name="message" rows="6" autocomplete="off" required placeholder="Write your message..." class="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"></textarea>
+                  <textarea id="message" name="message" rows="6" required placeholder="Write your message..." class="mt-1 block w-full rounded border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"></textarea>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -348,8 +348,163 @@
     </footer>
 
     <div class="text-center text-sm text-gray-500 py-4">Powered by GitHub Actions &amp; Azure.</div>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     <script src="js/main.js"></script>
-    <script src="js/inline.js" defer></script>
+    <script>
+      // Vanilla-JS fallback renderer for certifications and achievements
+      (function(){
+        function createText(el, tag, className, text) {
+          const n = document.createElement(tag);
+          if (className) n.className = className;
+          if (text) n.textContent = text;
+          el.appendChild(n);
+          return n;
+        }
+
+        async function fetchJson(path) {
+          try {
+            const res = await fetch(path);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return await res.json();
+          } catch (e) { return null; }
+        }
+
+        function renderCertifications(root) {
+          if (!root) return;
+          // find list container inside the card (existing structure)
+          const listHolder = root.querySelector('ul') || (function(){ const ul=document.createElement('ul'); ul.className='space-y-3'; root.appendChild(ul); return ul; })();
+          listHolder.innerHTML = '';
+
+          (async () => {
+            const ms = await fetchJson('data/ms-certifications.json') || { certifications: [] };
+            const other = await fetchJson('data/other-certifications.json') || { certifications: [] };
+            const fallbackBadge = 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-general-badge.svg';
+
+            const msItems = (Array.isArray(ms.certifications) ? ms.certifications : []).map(c => ({
+              ...c,
+              issuer: 'Microsoft',
+              iconUrl: (c.iconUrl && (c.iconUrl.startsWith('http') ? c.iconUrl : (c.iconUrl.startsWith('/') ? 'https://learn.microsoft.com/en-us' + c.iconUrl : c.iconUrl))) || fallbackBadge,
+              certificationURL: (c.certificationURL && (c.certificationURL.startsWith('http') ? c.certificationURL : 'https://learn.microsoft.com/en-us' + (c.certificationURL.startsWith('/') ? c.certificationURL : '/' + c.certificationURL)))
+            }));
+
+            const otherItems = (Array.isArray(other.certifications) ? other.certifications : []).map(c => ({
+              ...c,
+              issuer: c.issuer || 'Other',
+              iconUrl: c.iconUrl ? (c.iconUrl.startsWith('/') ? c.iconUrl.slice(1) : c.iconUrl) : fallbackBadge,
+              certificationURL: c.certificationURL && (c.certificationURL.startsWith('http') ? c.certificationURL : ('https://learn.microsoft.com/en-us' + (c.certificationURL.startsWith('/') ? c.certificationURL : '/' + c.certificationURL)))
+            }));
+
+            const merged = [...msItems, ...otherItems].map(i => ({ ...i, iconUrl: i.iconUrl || fallbackBadge }));
+            const latest = merged.slice().sort((a,b) => new Date(b.dateEarned || 0) - new Date(a.dateEarned || 0)).slice(0,5);
+
+            for (const item of latest) {
+              const li = document.createElement('li'); li.className='flex items-center justify-between border p-3 rounded';
+              const left = document.createElement('div'); left.className='flex items-center gap-3';
+              const img = document.createElement('img'); img.src = item.iconUrl || fallbackBadge; img.alt='badge'; img.className='w-12 h-12 object-contain rounded';
+              left.appendChild(img);
+              const meta = document.createElement('div');
+              createText(meta,'div','text-sm font-semibold', item.name || item.title || '');
+              createText(meta,'div','text-xs text-gray-500', item.issuer || '');
+              createText(meta,'div','text-xs text-gray-500', (item.dateEarned ? new Date(item.dateEarned).toLocaleDateString() : ''));
+              left.appendChild(meta);
+              li.appendChild(left);
+
+              const right = document.createElement('div');
+              const span = document.createElement('span'); span.className='inline-block px-2 py-1 rounded-full text-xs bg-green-100 text-green-800'; span.textContent = 'Completed';
+              right.appendChild(span);
+              li.appendChild(right);
+
+              listHolder.appendChild(li);
+            }
+          })();
+        }
+
+        function renderAchievements(root) {
+          if (!root) return;
+          const listHolder = root.querySelector('ul') || (function(){ const ul=document.createElement('ul'); ul.className='space-y-3'; root.appendChild(ul); return ul; })();
+          listHolder.innerHTML = '';
+
+          (async () => {
+            const json = await fetchJson('data/achievements.json') || { achievements: [] };
+            const items = (Array.isArray(json.achievements) ? json.achievements : []).map(a => ({
+              ...a,
+              imageUrl: (a.imageUrl && (a.imageUrl.startsWith('http') ? a.imageUrl : (a.imageUrl.startsWith('/') ? 'https://learn.microsoft.com/en-us' + a.imageUrl : a.imageUrl)))
+            }));
+            const latest = items.slice().sort((a,b) => new Date(b.grantedOn || 0) - new Date(a.grantedOn || 0)).slice(0,5);
+
+            for (const a of latest) {
+              const li = document.createElement('li'); li.className='flex items-center justify-between border p-3 rounded';
+              const left = document.createElement('div'); left.className='flex items-center gap-3';
+              const img = document.createElement('img'); img.src = a.imageUrl || 'assets/badge.svg'; img.alt='badge'; img.className='w-12 h-12 object-contain rounded';
+              left.appendChild(img);
+              const meta = document.createElement('div');
+              createText(meta,'div','text-sm font-semibold', a.title || '');
+              createText(meta,'div','text-xs text-gray-500', a.category || '');
+              createText(meta,'div','text-xs text-gray-500', (a.grantedOn ? new Date(a.grantedOn).toLocaleDateString() : ''));
+              left.appendChild(meta);
+              li.appendChild(left);
+
+              const right = document.createElement('div');
+              const span = document.createElement('span'); span.className='inline-block px-2 py-1 rounded-full text-xs bg-green-100 text-green-800'; span.textContent = 'Completed';
+              right.appendChild(span);
+              li.appendChild(right);
+
+              listHolder.appendChild(li);
+            }
+          })();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+          // If Alpine is missing or not initialized, run fallback
+          if (typeof window.Alpine === 'undefined') {
+            renderCertifications(document.getElementById('certifications-root'));
+            renderAchievements(document.getElementById('achievements-root'));
+          }
+        });
+      })();
+    </script>
+    <script>
+      (function(){
+        function formatMonthYear(d) {
+          try { return new Date(d).toLocaleString(undefined, { month: 'short', year: 'numeric' }); } catch(e){ return d; }
+        }
+        function formatDurationMonths(totalMonths) {
+          const years = Math.floor(totalMonths / 12);
+          const months = totalMonths % 12;
+          let parts = [];
+          if (years > 0) parts.push(`${years} yr${years===1?'':'s'}`);
+          if (months > 0) parts.push(`${months} mo${months===1?'':'s'}`);
+          return parts.join(' ');
+        }
+        function computeAndRender(){
+          const els = document.querySelectorAll('.js-duration');
+          els.forEach(el => {
+            const s = el.dataset.start;
+            const e = el.dataset.end;
+            if (!s) return;
+            const start = new Date(s);
+            const end = (e && e.toLowerCase() !== 'present') ? new Date(e) : new Date();
+            let totalMonths = (end.getFullYear() - start.getFullYear())*12 + (end.getMonth() - start.getMonth());
+            if (totalMonths < 0) totalMonths = 0;
+            const duration = formatDurationMonths(totalMonths);
+            const startLabel = formatMonthYear(start);
+            const endLabel = (e && e.toLowerCase() !== 'present') ? formatMonthYear(end) : 'Present';
+            // Build DOM nodes using textContent to avoid inserting untrusted HTML
+            while (el.firstChild) el.removeChild(el.firstChild);
+            const rangeSpan = document.createElement('span');
+            rangeSpan.className = 'range';
+            rangeSpan.textContent = startLabel + ' — ' + endLabel;
+            el.appendChild(rangeSpan);
+            if (duration) {
+              const durSpan = document.createElement('span');
+              durSpan.className = 'hidden md:inline';
+              durSpan.textContent = ' · ' + duration;
+              el.appendChild(durSpan);
+            }
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', computeAndRender); else computeAndRender();
+      })();
+    </script>
   </body>
 </html>
-
