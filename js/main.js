@@ -191,3 +191,36 @@ document.addEventListener('alpine:init', () => {
   }));
 
 });
+
+// Improve mobile anchor behavior: close mobile menu first then scroll
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('header[x-data]');
+  if (!header) return;
+
+  const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+
+  header.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function (ev) {
+      const href = this.getAttribute('href');
+      if (!href || !href.startsWith('#') || !isMobile()) return;
+      ev.preventDefault();
+
+      // Close Alpine mobile menu if available
+      try {
+        if (header.__x && header.__x.$data && typeof header.__x.$data.open !== 'undefined') {
+          header.__x.$data.open = false;
+        }
+      } catch (e) { /* ignore */ }
+
+      // Wait for menu collapse then scroll to target smoothly
+      setTimeout(() => {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Update the hash without jumping
+          try { history.replaceState(null, '', href); } catch (e) { location.hash = href; }
+        }
+      }, 220);
+    });
+  });
+});
