@@ -224,3 +224,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// Contact form: submit via AJAX to Formspree
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('my-form');
+  if (!form) return;
+  const status = document.getElementById('my-form-status');
+  const btn = document.getElementById('my-form-button');
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!form.action) return;
+    status.textContent = '';
+    btn.disabled = true;
+
+    const fd = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: fd,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        status.className = 'text-sm mt-2 text-green-600';
+        status.textContent = 'Thanks — your message has been sent.';
+        form.reset();
+      } else {
+        let msg = 'Oops! There was a problem submitting the form.';
+        try { const json = await res.json(); if (json && json.error) msg = json.error; } catch(e) {}
+        status.className = 'text-sm mt-2 text-red-600';
+        status.textContent = msg;
+      }
+    } catch (err) {
+      status.className = 'text-sm mt-2 text-red-600';
+      status.textContent = 'Network error. Please try again later.';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+});
