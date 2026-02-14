@@ -1,74 +1,52 @@
-# AsanzaDev
-Portfolio personal site
-
-## Frontend scaffold
-
-This repository now includes a minimal static SPA scaffold using HTML5, Tailwind CSS (via CDN), and Alpine.js.
-
-
-To try locally, serve the folder and open `index.html` in a browser. Example:
-
-```bash
-# using Python
-python -m http.server 8000
-
-# or with Node (install serve):
-npx serve .
-```
-
-The frontend expects `/data/achievements.json` to match the provided schema `{ "achievements": [ ... ], "totalCount": N }`.
 # AsanzaDev — personal portfolio
 
-This is a small, recruiter-focused static portfolio site (HTML/CSS/JS) built with Tailwind CSS and plain JavaScript.
+This repository contains a compact, recruiter-facing static portfolio (HTML/CSS/JS). The site is intentionally minimal and hardened to reduce runtime third-party code and to support a stricter Content Security Policy.
 
-What's in this repo
-- `index.html` — site entry and CSP meta
-- `css/styles.css` — compiled Tailwind + small head styles (built locally)
-- `js/main.js` — runtime helpers (Alpine registration if present)
-- `js/inline.js` — previously-inline runtime code (durations renderer, fallbacks for certifications/achievements, menu toggle)
-- `data/` — JSON seed files (`achievements.json`, `ms-certifications.json`, `other-certifications.json`)
+## Current status
+- Tailwind CSS: built locally (PostCSS + Tailwind) and compiled to `css/styles.css`.
+- Inline code: previously inline `<script>` and `<style>` have been externalized to `js/inline.js` and `css/styles.css` to permit a stricter CSP.
+- Alpine.js: CDN removed; `js/inline.js` provides vanilla-JS fallbacks for menu, certifications, achievements, and durations.
+- Security: meta CSP added to `index.html`; `form-action` restricted. Some hardening (HSTS, `frame-ancestors`) still requires response headers from the host.
+- UI: smaller status badges (`.asanza-badge`), achievement categories are displayed as friendly labels (e.g., `learningpaths` → "Learning Path").
+- Favicon: `assets/favicon.ico` generated via `scripts/make_favicon.py`.
+
+## Repository layout
+- `index.html` — entry point and CSP meta
+- `css/styles.css` — compiled Tailwind + small custom rules
+- `js/inline.js` — runtime helpers and safe renderers
+- `js/main.js` — Alpine registration helper and other helpers
+- `data/` — JSON source files (`achievements.json`, `ms-certifications.json`, `other-certifications.json`)
 - `assets/` — images and `favicon.ico`
-- `scripts/` — helper scripts (`make_favicon.py`, `add-sri.ps1`)
+- `scripts/` — utility scripts (`make_favicon.py`, `add-sri.ps1`)
 
-Notable recent updates
-- Tailwind moved from CDN to a local PostCSS/Tailwind build (`css/styles.css`).
-- All inline `<script>`/`<style>` blocks were externalized to allow a strict Content Security Policy (meta CSP added to `index.html`).
-- Alpine CDN was removed to avoid `unsafe-eval`; `js/inline.js` provides vanilla-JS fallbacks so the site remains functional without Alpine.
-- Safe DOM rendering: removed unsafe `innerHTML` usage in duration and list renderers.
-- Favicon generated (`assets/favicon.ico`) using `scripts/make_favicon.py`.
-- UI tweaks: status badges reduced in size (`.asanza-badge` in `css/styles.css`), achievements category keys are mapped to friendly labels (e.g., `learningpaths` → "Learning Path").
+## Quick developer guide
 
-Local development / build
-Prereqs: Node.js (14+), npm
+### Requirements
+- Node.js (14+), npm
 
-1. Install dependencies and build Tailwind CSS
-
+### Build CSS
 ```bash
 npm ci
 npm run build:css
 ```
 
-2. Serve the site locally and smoke-test
-
+### Serve locally
 ```bash
-# from repository root
 python -m http.server 8000
 # then open http://localhost:8000/
 ```
 
-Security & deployment notes
-- CSP: a meta Content-Security-Policy is included in `index.html` to restrict scripts/styles; removing inline code allowed dropping `'unsafe-inline'` for script/style sources. Note: some directives such as `frame-ancestors` and HSTS must be delivered as response headers from the host.
-- SRI: a PowerShell helper `scripts/add-sri.ps1` exists for computing integrity values, but dynamic CDN endpoints (e.g., some Tailwind CDN behaviors) make SRI unreliable — prefer pinned or local assets.
-- Hosting: GitHub Pages works for static hosting, but to enforce HTTP response headers (HSTS, frame-ancestors) consider a proxy or Cloudflare Worker or migrate to Netlify/Vercel which support custom response headers.
+### Verify
+- Open the site and confirm the Certifications and Achievements panels render and badges show the correct, smaller styling.
 
-Remaining high-priority items
-- Serve strict security headers (HSTS, frame-ancestors, X-Frame-Options) via the host or an edge worker.
-- Add CI workflow to build `css/styles.css` on push (the npm scripts are present; the Action can be added).
-- Run supply-chain/dependency scans and pin any external libraries where feasible.
+## Security & deployment notes
+- CSP: a meta CSP is present, but some directives (HSTS, `frame-ancestors`) must be enforced as HTTP response headers by your host or edge worker.
+- SRI: a helper exists (`scripts/add-sri.ps1`), however dynamic CDN endpoints can break SRI checks — prefer local, pinned assets.
+- Hosting: GitHub Pages is supported; to inject response headers consider a Cloudflare Worker or move to Netlify/Vercel for easy header configuration.
 
-Contributing / testing
-- To reproduce the production build locally: run `npm ci && npm run build:css`, then serve the folder and verify the Certifications and Achievements panels render correctly.
-- If you add or update items under `data/`, the site will read the JSON files at runtime.
+## Planned high-priority items
+- Deploy response headers (HSTS, `frame-ancestors`, X-Frame-Options) via edge worker or host.
+- Add CI to build `css/styles.css` on push (I can scaffold a GitHub Action for this).
+- Run supply-chain scans and pin external dependencies.
 
-If you'd like, I can add a GitHub Action to build Tailwind on push and/or a short Cloudflare Worker snippet to inject response headers for GitHub Pages.
-
+If you'd like, I can add a GitHub Action to build CSS on push or scaffold a Cloudflare Worker to inject response headers for GitHub Pages — tell me which and I'll create it.
