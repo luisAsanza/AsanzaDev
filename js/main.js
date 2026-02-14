@@ -273,3 +273,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+// Header scroll behavior and active nav link highlighting
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('header[x-data]');
+  const navLinks = Array.from(document.querySelectorAll('nav a.nav-link, .md\\:hidden a.nav-link'));
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+
+  function onScroll() {
+    if (!header) return;
+    header.classList.toggle('scrolled', window.scrollY > 24);
+  }
+
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  if (sections.length && navLinks.length) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        const link = document.querySelector(`nav a.nav-link[href="#${id}"], .md\\:hidden a.nav-link[href="#${id}"]`);
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px -45% 0px', threshold: [0.25, 0.5] });
+
+    sections.forEach(s => io.observe(s));
+    // Ensure clicking a nav link immediately marks it active (fixes jump-to-anchor cases)
+    navLinks.forEach(link => {
+      link.addEventListener('click', (ev) => {
+        try {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        } catch (e) { /* ignore */ }
+      });
+    });
+  }
+});
