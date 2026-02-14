@@ -326,24 +326,55 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
 
   if (sections.length && navLinks.length) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const id = entry.target.id;
-        const link = document.querySelector(`nav a.nav-link[href="#${id}"], .md\\:hidden a.nav-link[href="#${id}"]`);
-        if (entry.isIntersecting) {
-          navLinks.forEach(l => l.classList.remove('active'));
-          if (link) link.classList.add('active');
-        }
-      });
-    }, { root: null, rootMargin: '0px 0px -45% 0px', threshold: [0.25, 0.5] });
+    // Fallback: compute active section on scroll based on document position.
+    // This approach is more deterministic than relying solely on IntersectionObserver
+    // and ensures both desktop and mobile nav variants are marked active.
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
 
-    sections.forEach(s => io.observe(s));
+    function setActiveForId(id) {
+      try {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const matches = document.querySelectorAll(`a.nav-link[href="#${id}"]`);
+        matches.forEach(m => m.classList.add('active'));
+      } catch (e) { /* ignore */ }
+    }
+
+    function updateActiveSection() {
+      const pos = window.scrollY + headerHeight + 8;
+      let found = null;
+      for (const s of sections) {
+        const top = s.offsetTop;
+        const bottom = top + s.offsetHeight;
+        if (pos >= top && pos < bottom) { found = s; break; }
+      }
+      // If nothing matched (e.g., at very bottom), pick last section when scrolled past it
+      if (!found) {
+        const last = sections[sections.length - 1];
+        if (last && (window.scrollY + window.innerHeight) >= (last.offsetTop + last.offsetHeight - 2)) found = last;
+      }
+
+      if (found) setActiveForId(found.id);
+    }
+
+    // Run on load and on scroll/resize. Use rAF to avoid layout thrashing.
+    let ticking = false;
+    function onScrollActive() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => { updateActiveSection(); ticking = false; });
+      }
+    }
+
+    updateActiveSection();
+    window.addEventListener('scroll', onScrollActive, { passive: true });
+    window.addEventListener('resize', onScrollActive, { passive: true });
+
     // Ensure clicking a nav link immediately marks it active (fixes jump-to-anchor cases)
     navLinks.forEach(link => {
       link.addEventListener('click', (ev) => {
         try {
-          navLinks.forEach(l => l.classList.remove('active'));
-          link.classList.add('active');
+          const href = link.getAttribute('href') || '';
+          if (href.startsWith('#')) setActiveForId(href.slice(1));
         } catch (e) { /* ignore */ }
       });
     });
