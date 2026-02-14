@@ -14,11 +14,15 @@
           const res = await fetch('data/achievements.json');
           if (!res.ok) throw new Error('Failed to fetch achievements.json');
           const json = await res.json();
-          const items = (json.achievements || []).map(a => ({
-            ...a,
-            imageUrl: this.buildAchievementUrl(a.imageUrl),
-            detailsUrl: this.buildDetailsUrl(a.url)
-          }));
+          const items = (json.achievements || []).map(a => {
+            const cat = (a.category || '').toString().toLowerCase();
+            const image = cat.includes('learning') ? 'assets/learningpath-badge.svg' : 'assets/module-badge.svg';
+            return {
+              ...a,
+              imageUrl: image,
+              detailsUrl: this.buildDetailsUrl(a.url)
+            };
+          });
           this.achievements = items;
           this.totalCount = json.totalCount || this.achievements.length;
         } catch (e) {
@@ -126,12 +130,15 @@
           try { msJson = await tryFetchAny(msPaths); } catch (e) { console.debug('ms-certifications not found', e); }
           try { otherJson = await tryFetchAny(otherPaths); } catch (e) { console.debug('other-certifications not found', e); }
 
-          const fallbackBadge = 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-general-badge.svg';
+          const fallbackBadge = 'assets/microsoft-certified-general-badge.svg';
 
           const msItems = (msJson && Array.isArray(msJson.certifications) ? msJson.certifications : []).map(c => {
             const issuer = 'Microsoft';
-            const rawIcon = c.iconUrl || '';
-            const icon = rawIcon ? this.buildIconUrl(rawIcon) : fallbackBadge;
+            const title = (c.name || '').toString().trim();
+            let icon = 'assets/microsoft-certified-general-badge.svg';
+            if (/^MCSA/i.test(title)) icon = 'assets/mcsa-badge.svg';
+            else if (/^MCSD/i.test(title)) icon = 'assets/mcsd-badge.svg';
+
             return {
               ...c,
               issuer,
@@ -146,6 +153,10 @@
             let icon = c.iconUrl ? (c.iconUrl.startsWith('/') ? c.iconUrl.slice(1) : c.iconUrl) : '';
             if (issuer === 'Sitecore') {
               icon = 'assets/sitecore.png';
+            }
+            // Avoid external learn.microsoft.com badge URLs for other items; use local fallback instead
+            if (icon && (icon.startsWith('http://') || icon.startsWith('https://') || icon.startsWith('media') || icon.includes('learn.microsoft.com'))) {
+              icon = fallbackBadge;
             }
             return {
               ...c,

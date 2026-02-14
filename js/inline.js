@@ -81,17 +81,28 @@
       (async () => {
         const ms = await fetchJson('data/ms-certifications.json') || { certifications: [] };
         const other = await fetchJson('data/other-certifications.json') || { certifications: [] };
-        const fallbackBadge = 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-general-badge.svg';
-        const msItems = (Array.isArray(ms.certifications) ? ms.certifications : []).map(c => ({
-          ...c,
-          issuer: 'Microsoft',
-          iconUrl: (c.iconUrl && (c.iconUrl.startsWith('http') ? c.iconUrl : (c.iconUrl.startsWith('/') ? 'https://learn.microsoft.com/en-us' + c.iconUrl : c.iconUrl))) || fallbackBadge,
-          certificationURL: (c.certificationURL && (c.certificationURL.startsWith('http') ? c.certificationURL : 'https://learn.microsoft.com/en-us' + (c.certificationURL.startsWith('/') ? c.certificationURL : '/' + c.certificationURL)))
-        }));
+        const fallbackBadge = 'assets/microsoft-certified-general-badge.svg';
+        const msItems = (Array.isArray(ms.certifications) ? ms.certifications : []).map(c => {
+          const issuer = 'Microsoft';
+          const title = (c.name || '').toString().trim();
+          let icon = 'assets/microsoft-certified-general-badge.svg';
+          if (/^MCSA/i.test(title)) icon = 'assets/mcsa-badge.svg';
+          else if (/^MCSD/i.test(title)) icon = 'assets/mcsd-badge.svg';
+          return {
+            ...c,
+            issuer,
+            iconUrl: icon,
+            certificationURL: (c.certificationURL && (c.certificationURL.startsWith('http') ? c.certificationURL : ('https://learn.microsoft.com/en-us' + (c.certificationURL.startsWith('/') ? c.certificationURL : '/' + c.certificationURL))))
+          };
+        });
         const otherItems = (Array.isArray(other.certifications) ? other.certifications : []).map(c => {
           const issuer = c.issuer || 'Other';
           let icon = c.iconUrl ? (c.iconUrl.startsWith('/') ? c.iconUrl.slice(1) : c.iconUrl) : '';
-          if (!icon && issuer === 'Sitecore') icon = 'assets/sitecore.png';
+          if (issuer === 'Sitecore') icon = 'assets/sitecore.png';
+          // Avoid external learn.microsoft.com badge URLs for other items; use local fallback instead
+          if (icon && (icon.startsWith('http://') || icon.startsWith('https://') || icon.startsWith('media') || icon.includes('learn.microsoft.com'))) {
+            icon = fallbackBadge;
+          }
           if (!icon) icon = fallbackBadge;
           const certUrl = c.certificationURL && (c.certificationURL.startsWith('http') ? c.certificationURL : ('https://learn.microsoft.com/en-us' + (c.certificationURL && c.certificationURL.startsWith('/') ? c.certificationURL : (c.certificationURL ? '/' + c.certificationURL : ''))));
           return { ...c, issuer, iconUrl: icon, certificationURL: certUrl };
@@ -167,11 +178,15 @@
           const cleaned = s.replace(/[-_]/g,' ').replace(/\s+$/,'').replace(/s$/i,'');
           return cleaned.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         }
-        const items = (Array.isArray(json.achievements) ? json.achievements : []).map(a => ({
-          ...a,
-          imageUrl: (a.imageUrl && (a.imageUrl.startsWith('http') ? a.imageUrl : (a.imageUrl.startsWith('/') ? 'https://learn.microsoft.com/en-us' + a.imageUrl : a.imageUrl))),
-          displayCategory: titleizeCategory(a.category)
-        }));
+        const items = (Array.isArray(json.achievements) ? json.achievements : []).map(a => {
+          const cat = (a.category || '').toString().toLowerCase();
+          const image = cat.includes('learning') ? 'assets/learningpath-badge.svg' : 'assets/module-badge.svg';
+          return {
+            ...a,
+            imageUrl: image,
+            displayCategory: titleizeCategory(a.category)
+          };
+        });
         const latest = items.slice().sort((a,b) => new Date(b.grantedOn || 0) - new Date(a.grantedOn || 0)).slice(0,5);
         for (const a of latest) {
           const li = document.createElement('li'); li.className='flex items-center justify-between border p-3 rounded';
