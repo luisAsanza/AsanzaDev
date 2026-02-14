@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://formspree.io; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'self'; object-src 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://formspree.io; img-src 'self' data: https:; style-src 'self'; script-src 'self'; base-uri 'self'; object-src 'none';">
     <!-- Note: frame-ancestors must be sent via HTTP response header to be enforced by browsers; set it on your server (e.g. Content-Security-Policy header). -->
     <title>AsanzaDev — Portfolio</title>
     <meta name="description" content="Portfolio site — AsanzaDev" />
@@ -11,13 +11,14 @@
     <!-- Tailwind is now built locally via Tailwind CLI/PostCSS -->
     <!-- Alpine removed to avoid CSP 'unsafe-eval' requirement; using vanilla JS fallbacks. -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="preload" as="image" href="assets/photo.jpeg">
   </head>
   <body class="antialiased">
     <header x-data="{open:false}" class="sticky top-0 z-50 bg-white/60 backdrop-blur border-b">
         <div class="max-w-4xl mx-auto p-3 flex items-center justify-between">
         <a href="#home" class="flex items-center gap-3">
-          <img src="assets/logo-light.png" alt="AsanzaDev" class="object-contain logo-light" style="width:36px;height:36px;" />
-          <img src="assets/logo-dark.png" alt="AsanzaDev" class="object-contain logo-dark hidden" style="width:36px;height:36px;" />
+          <img src="assets/logo-light.png" alt="AsanzaDev" class="object-contain logo-light" width="36" height="36" fetchpriority="high" decoding="async" />
+          <img src="assets/logo-dark.png" alt="AsanzaDev" class="object-contain logo-dark hidden" width="36" height="36" fetchpriority="high" decoding="async" />
           <span class="sr-only">AsanzaDev — Home</span>
         </a>
 
@@ -64,8 +65,8 @@
       <section id="home" class="mb-16">
         <div class="max-w-4xl mx-auto px-6 py-6 sm:py-12">
             <div class="flex items-center gap-4 mb-4">
-            <img src="assets/photo.jpeg" alt="Luis Asanza portrait" loading="lazy" class="w-14 h-14 rounded-full object-cover bg-gray-200" />
-            <div>
+            <img src="assets/photo.jpeg" alt="Luis Asanza portrait" class="w-14 h-14 rounded-full object-cover bg-gray-200 flex-shrink-0 self-center hero-avatar" width="56" height="56" fetchpriority="high" decoding="async" />
+            <div class="flex flex-col justify-center">
               <h2 class="text-lg font-semibold">Luis Asanza</h2>
               <p class="text-sm text-gray-500">Senior .NET Engineer</p>
             </div>
@@ -104,7 +105,7 @@
             
           </div>
           <div class="mt-4 sm:mt-0 sm:w-40">
-            <img src="assets/about.png" alt="Luis Asanza headshot" loading="lazy" class="w-36 h-36 rounded-full object-cover shadow mx-auto block" />
+            <img src="assets/about.png" alt="Luis Asanza headshot" class="w-36 h-36 rounded-full object-cover shadow mx-auto block" width="144" height="144" decoding="async" fetchpriority="low" />
           </div>
         </div>
       </section>
@@ -127,7 +128,7 @@
                   <template x-for="c in latest" :key="c.id">
                     <li class="flex items-center justify-between card">
                       <div class="flex items-center gap-3">
-                          <img :src="c.iconUrl || 'assets/badge.svg'" alt="certificate badge" loading="lazy" class="w-12 h-12 object-contain rounded" />
+                          <img :src="c.iconUrl || 'assets/badge.svg'" alt="certificate badge" class="w-12 h-12 object-contain rounded" width="48" height="48" decoding="async" />
                         <div>
                           <div class="text-sm font-semibold" x-text="c.name"></div>
                           <div class="text-xs text-gray-500" x-text="c.issuer"></div>
@@ -162,7 +163,7 @@
                   <template x-for="a in latest" :key="a.id">
                     <li class="flex items-center justify-between card">
                       <div class="flex items-center gap-3">
-                        <img :src="a.imageUrl || 'assets/badge.svg'" alt="training badge" loading="lazy" class="w-12 h-12 object-contain rounded" />
+                        <img :src="a.imageUrl || 'assets/badge.svg'" alt="training badge" class="w-12 h-12 object-contain rounded" width="48" height="48" decoding="async" />
                         <div>
                           <div class="text-sm font-semibold" x-text="a.title"></div>
                           <div class="text-xs text-gray-500" x-text="displayCategory(a.category)"></div>
@@ -192,8 +193,8 @@
 
               <!-- Portfolio Timeline Entry (current) -->
               <div class="flex items-start gap-4 mb-8 relative pl-12">
-                <img src="assets/logo-light.png" alt="Technical Modernization logo" loading="lazy" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-light" />
-                <img src="assets/logo-dark.png" alt="Technical Modernization logo" loading="lazy" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-dark hidden" />
+                <img src="assets/logo-light.png" alt="Technical Modernization logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-light" width="56" height="56" decoding="async" fetchpriority="low" />
+                <img src="assets/logo-dark.png" alt="Technical Modernization logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-dark hidden" width="56" height="56" decoding="async" fetchpriority="low" />
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <div>
@@ -216,7 +217,7 @@
 
               <!-- Verndale -->
               <div class="flex items-start gap-4 mb-8 relative pl-12">
-                <img src="assets/verndale.jpg" alt="Verndale logo" loading="lazy" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow" />
+                <img src="assets/verndale.jpg" alt="Verndale logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow" width="56" height="56" decoding="async" fetchpriority="low" />
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <div>
@@ -241,7 +242,7 @@
               <div class="flex items-start gap-4 mb-4 relative pl-12">
                 <picture>
                   <source srcset="assets/visonex.avif" type="image/avif">
-                  <img src="assets/visonex.avif" alt="Visonex logo" loading="lazy" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow" />
+                  <img src="assets/visonex.avif" alt="Visonex logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow" width="56" height="56" decoding="async" fetchpriority="low" />
                 </picture>
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
@@ -361,7 +362,7 @@
       </div>
     </footer>
 
-    <div class="text-center text-sm text-gray-500 py-4">Powered by GitHub Actions &amp; Azure.</div>
+    <div class="text-center text-sm text-gray-500 py-4">Powered by GitHub Actions.</div>
     <script src="js/main.js"></script>
     <script src="js/inline.js" defer></script>
   </body>

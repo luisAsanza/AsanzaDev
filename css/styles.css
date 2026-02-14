@@ -162,6 +162,9 @@ main > section { scroll-margin-top: calc(var(--header-offset) + 0.5rem); }
 #home h1{letter-spacing:-0.02em}
 #home .flex.items-center.gap-4{margin-bottom:2rem}
 
+/* Nudge avatar to visually align with the name/title (adjusted per request) */
+#home .hero-avatar { transform: translateY(-15px); }
+
 /* Primary CTA */
 .btn-primary {
   --btn-bg: var(--primary);
