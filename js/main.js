@@ -234,6 +234,43 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Theme toggle: initialize from localStorage or prefers-color-scheme and persist choice
+(function() {
+  function setTheme(isDark) {
+    const el = document.documentElement;
+    if (isDark) el.classList.add('dark'); else el.classList.remove('dark');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.setAttribute('aria-checked', isDark ? 'true' : 'false');
+      if (isDark) btn.classList.add('on'); else btn.classList.remove('on');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const stored = localStorage.getItem('asanza-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = stored === 'dark' ? true : stored === 'light' ? false : prefersDark;
+      setTheme(isDark);
+
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        // Ensure keyboard-operable (space/enter) and clickable
+        toggle.addEventListener('click', () => {
+          const nowDark = !document.documentElement.classList.contains('dark');
+          localStorage.setItem('asanza-theme', nowDark ? 'dark' : 'light');
+          setTheme(nowDark);
+        });
+        toggle.addEventListener('keydown', (ev) => {
+          if (ev.key === ' ' || ev.key === 'Enter') {
+            ev.preventDefault(); toggle.click();
+          }
+        });
+      }
+    } catch (e) { console.warn('theme init failed', e); }
+  });
+})();
+
 // Contact form: submit via AJAX to Formspree
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('my-form');
