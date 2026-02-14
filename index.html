@@ -6,12 +6,57 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://formspree.io; img-src 'self' data: https:; style-src 'self'; script-src 'self'; base-uri 'self'; object-src 'none';">
     <!-- Note: frame-ancestors must be sent via HTTP response header to be enforced by browsers; set it on your server (e.g. Content-Security-Policy header). -->
     <title>AsanzaDev — Portfolio</title>
-    <meta name="description" content="Portfolio site — AsanzaDev" />
+    <meta name="description" content="Senior .NET Engineer in Buenos Aires specializing in Clean Architecture and AI-driven development. 14+ years of enterprise experience in Healthcare and CMS migration." />
     <link rel="icon" href="assets/favicon.ico" />
     <!-- Tailwind is now built locally via Tailwind CLI/PostCSS -->
     <!-- Alpine removed to avoid CSP 'unsafe-eval' requirement; using vanilla JS fallbacks. -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preload" as="image" href="assets/photo.jpeg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://asanza.dev#organization",
+          "name": "AsanzaDev",
+          "url": "https://asanza.dev",
+          "sameAs": [
+            "https://github.com/luisAsanza",
+            "https://www.linkedin.com/in/luis-asanza/"
+          ],
+          "founder": {
+            "@id": "https://asanza.dev#person"
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://asanza.dev#person",
+          "name": "Luis Asanza",
+          "jobTitle": "Senior .NET Engineer",
+          "worksFor": {
+            "@id": "https://asanza.dev#organization"
+          },
+          "knowsAbout": [
+            "Senior .NET Engineer",
+            "Software Architecture",
+            "AI Integration",
+            "Clean Architecture",
+            "Healthcare Software Systems"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Buenos Aires",
+            "addressCountry": "Argentina"
+          },
+          "sameAs": [
+            "https://github.com/luisAsanza",
+            "https://www.linkedin.com/in/luis-asanza/"
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="antialiased">
     <header x-data="{open:false}" class="sticky top-0 z-50 bg-white/60 backdrop-blur border-b">
@@ -72,8 +117,8 @@
             </div>
           </div>
           <div>
-            <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Modernizing Enterprise .NET with Clean Architecture & AI</h1>
-            <p class="mt-4 text-gray-600 max-w-xl">I engineer resilient, cloud-native systems that bridge the gap between proven design patterns and the new era of intelligent software. Specializing in transforming complex business logic into maintainable, testable, and AI-ready solutions.</p>
+            <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Senior .NET Engineer — AI Integration & Scalable Enterprise Architecture</h1>
+            <p class="mt-4 text-gray-600 max-w-xl">I'm a Senior .NET Engineer building scalable, AI-integrated enterprise systems using Clean Architecture and cloud-native patterns. I design maintainable, testable, and AI-ready solutions that bridge proven design patterns with modern intelligent services.</p>
             <div class="mt-6">
               <a href="#contact" class="inline-block btn-primary">Contact me</a>
             </div>
@@ -128,7 +173,7 @@
                   <template x-for="c in latest" :key="c.id">
                     <li class="flex items-center justify-between card">
                       <div class="flex items-center gap-3">
-                          <img :src="c.iconUrl || 'assets/badge.svg'" alt="certificate badge" class="w-12 h-12 object-contain rounded" width="48" height="48" decoding="async" />
+                          <img :src="c.iconUrl || 'assets/badge.svg'" :alt="c.issuer === 'Microsoft' ? 'Azure AI Fundamentals Certified Engineer' : (c.name || 'certificate badge')" class="w-12 h-12 object-contain rounded" width="48" height="48" decoding="async" />
                         <div>
                           <div class="text-sm font-semibold" x-text="c.name"></div>
                           <div class="text-xs text-gray-500" x-text="c.issuer"></div>
@@ -163,7 +208,7 @@
                   <template x-for="a in latest" :key="a.id">
                     <li class="flex items-center justify-between card">
                       <div class="flex items-center gap-3">
-                        <img :src="a.imageUrl || 'assets/badge.svg'" alt="training badge" class="w-12 h-12 object-contain rounded" width="48" height="48" decoding="async" />
+                        <img :src="a.imageUrl || 'assets/badge.svg'" :alt="a.issuer === 'Microsoft' ? 'Azure AI Fundamentals Certified Engineer' : (a.title || 'training badge')" class="w-12 h-12 object-contain rounded" width="48" height="48" decoding="async" />
                         <div>
                           <div class="text-sm font-semibold" x-text="a.title"></div>
                           <div class="text-xs text-gray-500" x-text="displayCategory(a.category)"></div>
