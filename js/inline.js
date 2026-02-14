@@ -211,11 +211,15 @@
       if (isOpen) {
         header.setAttribute('data-open','true');
         btn.setAttribute('aria-expanded','true');
+        // Remove x-cloak so stylesheet won't force display:none
+        try { menu.removeAttribute('x-cloak'); } catch (e) { /* ignore */ }
         menu.style.display = '';
         const svgs = btn.querySelectorAll('svg'); if (svgs[0]) svgs[0].style.display = 'none'; if (svgs[1]) svgs[1].style.display = '';
       } else {
         header.removeAttribute('data-open');
         btn.setAttribute('aria-expanded','false');
+        // Reinstate x-cloak to hide the menu when closed
+        try { menu.setAttribute('x-cloak',''); } catch (e) { /* ignore */ }
         menu.style.display = 'none';
         const svgs = btn.querySelectorAll('svg'); if (svgs[0]) svgs[0].style.display = ''; if (svgs[1]) svgs[1].style.display = 'none';
       }
@@ -227,7 +231,10 @@
       const menu = header.querySelector('div[x-show]');
       if (!btn || !menu) return;
       setOpenState(header, btn, menu, false);
-      btn.addEventListener('click', function(){ const isOpen = header.getAttribute('data-open') === 'true'; setOpenState(header, btn, menu, !isOpen); });
+      btn.addEventListener('click', function(){
+        const isOpen = header.getAttribute('data-open') === 'true';
+        setOpenState(header, btn, menu, !isOpen);
+      });
       window.__asanza_setMenuOpen = function(v){ setOpenState(header, btn, menu, !!v); };
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
