@@ -1,7 +1,17 @@
-This folder is intended for static assets used by the portfolio site.
+```markdown
+This folder contains static assets used by the portfolio site.
 
-- Add images (photo, badges) here: `photo.jpg`, `badge.svg`.
-- Add a PDF resume as `resume.pdf`.
+Guidelines
+- Place personal images (headshot) at `assets/photo.jpg` or update `index.html` to reference a different filename.
+- SVG icons and badges can be stored as `assets/*.svg`.
+- Add `resume.pdf` if you want a downloadable resume; reference it from `index.html` or other pages.
 
-The site references files at `/assets/photo.jpg` and `/assets/resume.pdf`.
-Place your real files here or update `index.html` to point to other paths.
+Backups
+- A `backups/` folder exists at the repository root for archived image sets; do not store working images only in backups.
+
+Favicon
+- The repository contains a generated favicon; use `scripts/make_favicon.py` to regenerate if needed.
+
+Notes
+- Keep filenames stable (do not include timestamps in referenced filenames) so `index.html` can reference static paths.
+```
