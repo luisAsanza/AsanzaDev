@@ -33,7 +33,7 @@
           "name": "AsanzaDev",
           "url": "https://asanza.dev",
           "description": "Senior .NET Engineer in Buenos Aires specializing in Clean Architecture and AI-driven development. 14+ years of enterprise experience in Healthcare and CMS migration.",
-          "logo": "https://asanza.dev/assets/logo-light.png",
+          "logo": "https://asanza.dev/assets/logo-light.webp",
           "sameAs": [
             "https://github.com/luisAsanza",
             "https://www.linkedin.com/in/luis-asanza/"
@@ -84,8 +84,14 @@
     <header x-data="{open:false}" class="sticky top-0 z-50 bg-white/60 backdrop-blur border-b">
         <div class="max-w-4xl mx-auto p-3 flex items-center justify-between">
         <a href="#home" class="flex items-center gap-3">
-          <img src="assets/logo-light.png" alt="AsanzaDev" class="object-contain logo-light" width="36" height="36" fetchpriority="high" decoding="async" />
-          <img src="assets/logo-dark.png" alt="AsanzaDev" class="object-contain logo-dark hidden" width="36" height="36" fetchpriority="high" decoding="async" />
+          <picture class="logo-light">
+            <source srcset="assets/logo-light.webp" type="image/webp">
+            <img src="assets/logo-light.png" alt="AsanzaDev" class="object-contain logo-light" width="36" height="36" fetchpriority="high" decoding="async" />
+          </picture>
+          <picture class="logo-dark">
+            <source srcset="assets/logo-dark.webp" type="image/webp">
+            <img src="assets/logo-dark.png" alt="AsanzaDev" class="object-contain logo-dark hidden" width="36" height="36" fetchpriority="high" decoding="async" />
+          </picture>
           <span class="sr-only">AsanzaDev — Home</span>
         </a>
 
@@ -172,7 +178,10 @@
             
           </div>
           <div class="mt-4 sm:mt-0 sm:w-40">
-            <img src="assets/about.png" alt="Luis Asanza headshot" class="w-36 h-36 rounded-full object-cover shadow mx-auto block" width="144" height="144" decoding="async" fetchpriority="low" />
+            <picture>
+              <source srcset="assets/about.webp" type="image/webp">
+              <img src="assets/about.png" alt="Luis Asanza headshot" class="w-36 h-36 rounded-full object-cover shadow mx-auto block" width="144" height="144" decoding="async" fetchpriority="low" />
+            </picture>
           </div>
         </div>
       </section>
@@ -260,8 +269,14 @@
 
               <!-- Portfolio Timeline Entry (current) -->
               <div class="flex items-start gap-4 mb-8 relative pl-12">
-                <img src="assets/logo-light.png" alt="Technical Modernization logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-light" width="56" height="56" decoding="async" fetchpriority="low" />
-                <img src="assets/logo-dark.png" alt="Technical Modernization logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-dark hidden" width="56" height="56" decoding="async" fetchpriority="low" />
+                  <picture class="logo-light">
+                    <source srcset="assets/logo-light.webp" type="image/webp">
+                    <img src="assets/logo-light.png" alt="Technical Modernization logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-light" width="56" height="56" decoding="async" fetchpriority="low" />
+                  </picture>
+                  <picture class="logo-dark">
+                    <source srcset="assets/logo-dark.webp" type="image/webp">
+                    <img src="assets/logo-dark.png" alt="Technical Modernization logo" class="w-14 h-14 rounded-md object-cover flex-shrink-0 shadow logo-dark hidden" width="56" height="56" decoding="async" fetchpriority="low" />
+                  </picture>
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <div>
@@ -407,8 +422,14 @@
         <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
           <div>
             <a href="#home" class="flex items-center gap-3">
-              <img src="assets/logo-light.png" alt="AsanzaDev" class="w-6 h-6 object-contain logo-light" />
-              <img src="assets/logo-dark.png" alt="AsanzaDev" class="w-6 h-6 object-contain logo-dark hidden" />
+              <picture class="logo-light">
+                <source srcset="assets/logo-light.webp" type="image/webp">
+                <img src="assets/logo-light.png" alt="AsanzaDev" class="w-6 h-6 object-contain logo-light" />
+              </picture>
+              <picture class="logo-dark">
+                <source srcset="assets/logo-dark.webp" type="image/webp">
+                <img src="assets/logo-dark.png" alt="AsanzaDev" class="w-6 h-6 object-contain logo-dark hidden" />
+              </picture>
               <span class="sr-only">AsanzaDev</span>
             </a>
           </div>
