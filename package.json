@@ -5,10 +5,14 @@
   "devDependencies": {
     "tailwindcss": "^3.4.0",
     "postcss": "^8.4.0",
-    "autoprefixer": "^10.4.0"
+    "autoprefixer": "^10.4.0",
+    "http-server": "^14.1.1",
+    "devcert": "^1.1.0",
+    "selfsigned": "^1.10.11"
   },
   "scripts": {
     "build:css": "tailwindcss -i ./src/input.css -o ./css/styles.css --minify",
-    "watch:css": "tailwindcss -i ./src/input.css -o ./css/styles.css --watch"
+    "watch:css": "tailwindcss -i ./src/input.css -o ./css/styles.css --watch",
+    "serve:https": "node ./scripts/serve-https.js"
   }
 }

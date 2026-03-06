@@ -43,6 +43,45 @@ python -m http.server 8000
 # open http://localhost:8000/
 ```
 
+Serve the site locally over HTTPS (recommended for testing API connections)
+```bash
+# install deps (once)
+npm install
+
+# start HTTPS dev server (serves https://localhost:8443)
+npm run serve:https
+```
+
+Notes:
+- The `serve:https` script attempts to create a locally-trusted certificate using `devcert`. If OpenSSL or system permissions prevent that, the script falls back to a self-signed certificate (browser will show a warning). Use `mkcert` or install OpenSSL for trusted certs.
+- On Windows, if `npm install` is blocked by PowerShell execution policy, run in Command Prompt or allow scripts for the current user:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+npm install
+```
+### Recommended: mkcert (trusted certs, easiest)
+Install `mkcert` and let the script generate a browser-trusted cert automatically:
+
+Windows (Scoop, no admin):
+```powershell
+iwr -useb get.scoop.sh | iex
+scoop install mkcert
+mkcert -install
+```
+
+Windows (Chocolatey, admin):
+```powershell
+choco install mkcert -y
+mkcert -install
+```
+
+After installing `mkcert`, re-run:
+```bash
+npm run serve:https
+```
+
+The server will use `mkcert` to produce a locally-trusted certificate (no browser warning).
+
 ## Files and folders
 - `index.html` — main page and CSP meta (note: some CSP directives are more effective as HTTP headers)
 - `src/input.css` — Tailwind input
