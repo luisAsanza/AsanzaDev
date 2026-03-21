@@ -15,3 +15,34 @@ Thumbs.db
 # Build
 dist/
 build/
+
+# Secrets and credentials
+# dotenv files (ignore local/private envs but keep .env.example tracked)
+.env
+.env.local
+.env.*.local
+
+# Credentials, keys, and certificates
+*.pem
+*.key
+*.p12
+*.jks
+*.der
+*.crt
+
+# Common credential files (Google, Firebase, AWS, etc.)
+credentials.json
+client_secret*.json
+service-account*.json
+google-services.json
+firebase*.json
+
+# Vault, secret store, and misc secret folders/files
+.vault/
+.vault-token
+.secrets/
+*.secret
+
+# Backup/temp files that may contain secrets
+*.bak
+*.orig
