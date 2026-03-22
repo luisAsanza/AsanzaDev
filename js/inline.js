@@ -250,6 +250,10 @@
         const isOpen = header.getAttribute('data-open') === 'true';
         setOpenState(header, btn, menu, !isOpen);
       });
+      // Close menu when any mobile nav link is clicked (replaces @click="open = false" Alpine directive)
+      menu.querySelectorAll('a').forEach(function(link){
+        link.addEventListener('click', function(){ setOpenState(header, btn, menu, false); });
+      });
       window.__asanza_setMenuOpen = function(v){ setOpenState(header, btn, menu, !!v); };
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

@@ -391,3 +391,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Vanilla fallback for mobile menu when Alpine is not present
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const header = document.querySelector('header[x-data]');
+    if (!header) return;
+
+    // Mobile toggle button: uses aria-expanded attribute in markup
+    const menuBtn = header.querySelector('button[aria-expanded]');
+    const mobileMenu = header.querySelector('div[x-show]');
+    let open = false;
+
+    function setMenuOpen(val) {
+      open = !!val;
+      if (mobileMenu) {
+        if (open) {
+          mobileMenu.style.display = '';
+          mobileMenu.removeAttribute('x-cloak');
+        } else {
+          mobileMenu.style.display = 'none';
+          mobileMenu.setAttribute('x-cloak', '');
+        }
+      }
+      if (menuBtn) {
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        // swap svg icons inside the button if present
+        const svgs = menuBtn.querySelectorAll('svg');
+        if (svgs && svgs.length >= 2) {
+          svgs[0].style.display = open ? 'none' : '';
+          svgs[1].style.display = open ? '' : 'none';
+        }
+      }
+    }
+
+    // expose a global setter used by other code paths
+    window.__asanza_setMenuOpen = setMenuOpen;
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', (e) => { setMenuOpen(!open); });
+      menuBtn.addEventListener('keydown', (ev) => {
+        if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); setMenuOpen(!open); }
+      });
+    }
+
+    // ensure initial closed state
+    setMenuOpen(false);
+  } catch (e) {
+    console.warn('Menu fallback init failed', e);
+  }
+});

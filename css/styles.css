@@ -209,6 +209,43 @@ main > section:last-of-type { padding-bottom: 3rem; }
 .card:hover{ transform: translateY(-2px); box-shadow: var(--elevation-2); }
 .dark .card:hover{ box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
 
+/* Featured project card styles */
+.project-card{
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.project-card:hover{ transform: translateY(-4px); box-shadow: var(--elevation-2); }
+.dark .project-card{ background: var(--card-bg); border: 1px solid var(--card-border); }
+.project-title{ color: var(--text); line-height: 1.2; }
+.project-meta{ color: var(--muted); margin-top: .25rem; }
+/* Project bullets: use margin to position the whole list relative to title */
+.project-bullets{ color: var(--muted); margin-top: .75rem; margin-left: 1.25rem; padding-left: 0; line-height:1.6; list-style-position: outside; }
+.project-bullets li{ margin-top: .5rem; }
+
+/* Ensure bullet indentation aligns visually under the project title */
+.project-card { padding-left: 0.75rem; }
+.project-card > .flex { gap: 1rem; }
+@media (min-width:768px){
+  .project-bullets{ margin-left: 3rem }
+}
+.project-cta{
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--card-border);
+  background: transparent;
+  color: var(--link);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+}
+.project-cta:hover{ background: rgba(0,120,212,0.06); transform: translateY(-1px); }
+.dark .project-cta:hover{ background: rgba(79,195,247,0.08); }
+@media (max-width:639px){ .project-card{ padding:1rem } .project-cta{ display:inline-block; width:auto } }
+
 /* Focus styles (visible for keyboard users) */
 :where(:focus-visible) { outline: 3px solid rgba(99,102,241,0.14); outline-offset: 3px; }
 
@@ -317,7 +354,6 @@ footer .flex { gap: 1.5rem; }
   /* Certification cards more compact on mobile */
   #certifications-root, #achievements-root{padding:1rem}
 }
-
 }
 /* Small custom tweak for certification/achievement status badges */
 .asanza-badge{
